@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
    <title>Shopping Cart</title>
    <meta charset="utf-8">
@@ -11,7 +10,6 @@
 </head>
 
 <body>
-
    <section>
       <div class="container">
          <div class="cart">
@@ -22,14 +20,13 @@
                         <img src="images/product-1.png" alt="">
                         <h5>iPhone 11 128GB Black</h5>
                      </div>
-
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="decrementProduct1" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="quantity1" type="text" class="form-control text-center" value="1">
+                           <button id="incrementProduct1" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$<span id="product1Price">1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,12 +40,11 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
-
+                           <button id="decrementProduct2" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="quantity2" type="text" class="form-control text-center" value="1">
+                           <button id="incrementProduct2" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$59</h5>
+                        <h5>$<span id="product2Price">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -64,9 +60,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$<span id="subtotal"></span></h5>
+                        <h5>$<span id="tax">0</span></h5>
+                        <h5>$<span id="total"></span></h5>
                      </div>
                   </div>
                </div>
@@ -77,6 +73,69 @@
          </div>
       </div>
    </section>
-</body>
+   <script>
+      function setTotalSubtotal(){
+         var product1Price = parseInt(document.getElementById('product1Price').innerText);
+         var product2Price = parseInt(document.getElementById('product2Price').innerText);
+         var subtotal = product1Price + product2Price;
+         document.getElementById('subtotal').innerText = subtotal;
 
+         var tax = parseInt(document.getElementById('tax').innerText);
+         var total = subtotal + tax;
+         document.getElementById('total').innerText = total;
+      }
+      function increment(id, price){
+         var currentQuantity = document.getElementById(id).value;
+         var quantityNumber = parseInt(currentQuantity);
+         var newQuantityNumber = quantityNumber + 1;
+         document.getElementById(id).value = newQuantityNumber;
+
+         var newProductPrice = price * newQuantityNumber;
+         return newProductPrice;
+      }
+      function decrement(id, price){
+         var currentQuantity = document.getElementById(id).value;
+         var quantityNumber = parseInt(currentQuantity);
+         var newQuantityNumber = quantityNumber - 1;
+         document.getElementById(id).value = newQuantityNumber;
+
+         var newProductPrice = price * newQuantityNumber;
+         return newProductPrice;
+      }
+
+      setTotalSubtotal();
+
+      var incrementProduct1 = document.getElementById('incrementProduct1');
+      incrementProduct1.addEventListener('click', function(){
+         var newPrice = increment("quantity1", 1219);
+         document.getElementById('product1Price').innerText = newPrice;
+
+         setTotalSubtotal();
+      })
+
+      var decrementProduct1 = document.getElementById('decrementProduct1');
+      decrementProduct1.addEventListener('click', function(){
+         var newPrice = decrement("quantity1", 1219);
+         document.getElementById('product1Price').innerText = newPrice;
+
+         setTotalSubtotal();
+      })
+
+      var incrementProduct2 = document.getElementById('incrementProduct2');
+      incrementProduct2.addEventListener('click', function(){
+         var newPrice = increment("quantity2", 59);
+         document.getElementById('product2Price').innerText = newPrice;
+
+         setTotalSubtotal();
+      })
+
+      var decrementProduct2 = document.getElementById('decrementProduct2');
+      decrementProduct2.addEventListener('click', function(){
+         var newPrice = decrement("quantity2", 59);
+         document.getElementById('product2Price').innerText = newPrice;
+
+         setTotalSubtotal();
+      })
+   </script>
+</body>
 </html>
